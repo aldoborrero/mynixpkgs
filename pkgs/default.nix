@@ -56,6 +56,8 @@
       mkdocs-git-authors-plugin = python311Packages.callPackage ./development/python-modules/mkdocs-git-authors-plugin {};
       mlc-llm = python311Packages.callPackage ./development/python-modules/mlc-llm {};
       # pydanticv2 = python311Packages.callPackage ./development/python-modules/pydanticv2 {};
+
+      emvue-exporter = python311Packages.callPackage ./development/python-modules/emvue-exporter {};
     };
 
     apps = lib.mapAttrs (_name: drv: lib.flakes.mkApp {inherit drv;}) self'.packages;
