@@ -81,7 +81,7 @@ in
         plugins,
         hash ? lib.fakeHash,
       }:
-        caddy.overrideAttrs (finalAttrs: prevAttrs: let
+        caddy.overrideAttrs (finalAttrs: _prevAttrs: let
           pluginsSorted = builtins.sort builtins.lessThan plugins;
           pluginsList = lib.concatMapStrings (plugin: "${plugin}-") pluginsSorted;
           pluginsHash = builtins.hashString "md5" pluginsList;
@@ -94,7 +94,7 @@ in
 
             src = stdenv.mkDerivation {
               pname = "caddy-src-with-plugins-${pluginsHash}";
-              version = finalAttrs.version;
+              inherit (finalAttrs) version;
 
               nativeBuildInputs = [
                 go
