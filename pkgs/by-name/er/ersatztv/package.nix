@@ -10,13 +10,13 @@
 }:
 buildDotnetModule rec {
   pname = "ersatztv";
-  version = "0.8.8-beta";
+  version = "25.1.0";
 
   src = fetchFromGitHub {
     owner = "ErsatzTV";
     repo = "ErsatzTV";
     rev = "v${version}";
-    sha256 = "sha256-kXAJLM5PeLZH98oasynXfurN+Gyy+9XffpcGtSijiDs=";
+    sha256 = "sha256-LsA+8xqtZLF8Ako3BtlmauEhTHCL3ludKuPEx9zJ/rI=";
   };
 
   buildInputs = [ffmpeg];
@@ -48,7 +48,6 @@ buildDotnetModule rec {
     description = "Configuring and streaming custom live channels using your media library";
     homepage = "https://ersatztv.org/";
     license = licenses.zlib;
-    maintainers = with maintainers; [allout58];
     mainProgram = "ErsatzTV";
     inherit (dotnet-runtime.meta) platforms;
   };
