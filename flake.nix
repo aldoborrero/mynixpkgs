@@ -98,7 +98,6 @@
         pkgs,
         lib,
         system,
-        self',
         ...
       }: {
         # nixpkgs
@@ -112,16 +111,6 @@
               })
             ];
           };
-        };
-
-        # packages
-        packages = {
-          mdformat = pkgs.mdformat.withPlugins (p: [
-            p.mdformat-footnote
-            p.mdformat-frontmatter
-            p.mdformat-gfm
-            p.mdformat-simple-breaks
-          ]);
         };
 
         # devshells
@@ -162,7 +151,12 @@
             deadnix.priority = 1;
             statix.priority = 2;
             alejandra.priority = 3;
-            mdformat.command = lib.mkDefault self'.packages.mdformat;
+            mdformat.command = lib.mkForce (pkgs.mdformat.withPlugins (p: [
+              p.mdformat-footnote
+              p.mdformat-frontmatter
+              p.mdformat-gfm
+              p.mdformat-simple-breaks
+            ]));
           };
         };
       };
