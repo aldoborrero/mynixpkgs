@@ -1,5 +1,2 @@
 builds:
-  exclude:
-    - 'packages.*.llm'
-    - 'packages.*.gpt4all'
-    - 'packages.*.mlc-llm'
+  exclude: []
