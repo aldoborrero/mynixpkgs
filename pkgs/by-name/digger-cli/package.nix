@@ -1,24 +1,19 @@
 {
   buildGoModule,
-  fetchFromGitHub,
   installShellFiles,
   lib,
+  digger-src,
 }:
 buildGoModule rec {
   pname = "digger-cli";
-  version = "0.6.79";
+  version = "0.6.87";
 
-  src = fetchFromGitHub {
-    owner = "diggerhq";
-    repo = "digger";
-    rev = "v${version}";
-    hash = "sha256-/R52dwgKqpU9ffka5bz9xb7NyoCIu2/AgiWG0TT8nd0=";
-  };
+  src = digger-src;
 
-  vendorHash = "sha256-qcItUM2wQ4fgFDMGkyymxQugGaRQvn7rrmSzaLtL76Q=";
+  vendorHash = "sha256-fjX4iqrlWkuZrEOOfgEmDpqHs8qMrH9ZupLSzzFM7qo=";
   proxyVendor = true;
 
-  CGO_ENABLED = 0;
+  env.CGO_ENABLED = 0;
 
   ldflags = [
     "-s"

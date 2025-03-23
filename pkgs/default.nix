@@ -6,10 +6,13 @@
     ...
   }: {
     packages =
-      lib.pipe (lib.packagesFromDirectoryRecursive {
-        inherit (pkgs) callPackage;
-        directory = ./by-name;
-      }) [
+      lib.pipe (lib.makeScope pkgs.newScope (
+        self:
+          lib.packagesFromDirectoryRecursive {
+            inherit (self) callPackage;
+            directory = ./by-name;
+          }
+      )) [
         (lib.collect lib.isDerivation)
         (map (x: lib.nameValuePair (builtins.head (builtins.split "-[0-9].*$" x.name)) x))
         builtins.listToAttrs
