@@ -157,6 +157,7 @@
               p.mdformat-gfm
               p.mdformat-simple-breaks
             ]));
+            yamlfmt.includes = [".yamlfmt"];
           };
         };
       };
