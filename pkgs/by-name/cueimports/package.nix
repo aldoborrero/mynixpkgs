@@ -1,9 +1,9 @@
 {
-  buildGo122Module,
+  buildGoModule,
   fetchFromGitHub,
   lib,
 }:
-buildGo122Module rec {
+buildGoModule rec {
   pname = "cueimports";
   version = "0.2.0";
 
