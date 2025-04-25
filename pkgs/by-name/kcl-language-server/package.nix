@@ -7,24 +7,18 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "kcl-language-server";
-  version = "0.9.0";
+  version = "0.11.1";
 
   src = fetchFromGitHub {
     owner = "kcl-lang";
     repo = "kcl";
     rev = "v${version}";
-    hash = "sha256-xVKoH0wu8QP4g/klTidx1wdt/oFoTX5GS/J9uVGgKjo=";
+    hash = "sha256-14yFGa8y8w3wbCmx0JOSN0TShXLZZpTdVynEfUKkjuE=";
   };
 
   sourceRoot = "source/kclvm";
 
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-    outputHashes = {
-      "inkwell-0.2.0" = "sha256-JxSlhShb3JPhsXK8nGFi2uGPp8XqZUSiqniLBrhr+sM=";
-      "protoc-bin-vendored-3.1.0" = "sha256-RRqpPMJygpKGG5NYzD93iy4htpVqFhYMmfPgbRtpUqg=";
-    };
-  };
+  cargoHash = "sha256-o7YFyqRWAMjq23mcAqDrcN4infdBgp1KNvviYOLR35s=";
 
   nativeBuildInputs = [
     pkg-config
