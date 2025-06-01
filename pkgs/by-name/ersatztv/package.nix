@@ -3,7 +3,7 @@
   buildDotnetModule,
   dotnetCorePackages,
   fetchFromGitHub,
-  ffmpeg,
+  ffmpeg_6-full,
   lib,
   libva-utils,
   which,
@@ -19,7 +19,7 @@ buildDotnetModule rec {
     sha256 = "sha256-LsA+8xqtZLF8Ako3BtlmauEhTHCL3ludKuPEx9zJ/rI=";
   };
 
-  buildInputs = [ffmpeg];
+  buildInputs = [ffmpeg_6-full];
 
   projectFile = "ErsatzTV/ErsatzTV.csproj";
   executables = [
@@ -36,7 +36,7 @@ buildDotnetModule rec {
     "PATH"
     ":"
     "${lib.makeBinPath [
-      ffmpeg
+      ffmpeg_6-full
       libva-utils
       which
     ]}"
