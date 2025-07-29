@@ -3,23 +3,23 @@
   buildDotnetModule,
   dotnetCorePackages,
   fetchFromGitHub,
-  ffmpeg_6-full,
+  ffmpeg-full,
   lib,
   libva-utils,
   which,
 }:
 buildDotnetModule rec {
   pname = "ersatztv";
-  version = "25.1.0";
+  version = "25.3.1";
 
   src = fetchFromGitHub {
     owner = "ErsatzTV";
     repo = "ErsatzTV";
     rev = "v${version}";
-    sha256 = "sha256-LsA+8xqtZLF8Ako3BtlmauEhTHCL3ludKuPEx9zJ/rI=";
+    sha256 = "sha256-HyRVDsmkJSLgn9wff0/GeFELqTNyDY1D5z+tJ5d6UPA=";
   };
 
-  buildInputs = [ffmpeg_6-full];
+  buildInputs = [ffmpeg-full];
 
   projectFile = "ErsatzTV/ErsatzTV.csproj";
   executables = [
@@ -27,8 +27,8 @@ buildDotnetModule rec {
     "ErsatzTV.Scanner"
   ];
   nugetDeps = ./nuget-deps.nix;
-  dotnet-sdk = dotnetCorePackages.sdk_8_0;
-  dotnet-runtime = dotnetCorePackages.aspnetcore_8_0;
+  dotnet-sdk = dotnetCorePackages.sdk_9_0;
+  dotnet-runtime = dotnetCorePackages.aspnetcore_9_0;
 
   # ETV uses `which` to find `ffmpeg` and `ffprobe`
   makeWrapperArgs = [
@@ -36,7 +36,7 @@ buildDotnetModule rec {
     "PATH"
     ":"
     "${lib.makeBinPath [
-      ffmpeg_6-full
+      ffmpeg-full
       libva-utils
       which
     ]}"
