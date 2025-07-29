@@ -34,10 +34,6 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    haumea = {
-      url = "github:nix-community/haumea/v0.2.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     lib-extras = {
       url = "github:aldoborrero/lib-extras/v1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,21 +43,16 @@
 
   outputs = inputs @ {
     flake-parts,
-    haumea,
     nixpkgs,
     systems,
     ...
   }: let
     lib = nixpkgs.lib.extend (l: _: (inputs.lib-extras.lib l));
-    flakeInputs = haumea.lib.load {
-      src = ./.;
-      loader = haumea.lib.loaders.path;
-    };
   in
     flake-parts.lib.mkFlake
     {
       inherit inputs;
-      specialArgs = {inherit lib flakeInputs;};
+      specialArgs = {inherit lib;};
     }
     {
       imports =
@@ -71,10 +62,10 @@
           flake-parts.flakeModules.flakeModules
           treefmt-nix.flakeModule
         ])
-        ++ (with flakeInputs; [
-          pkgs.default
-          flake-modules.autoNixosModules
-        ]);
+        ++  [
+          ./pkgs
+          ./flake-modules/autoNixosModules.nix
+        ];
 
       debug = false;
 
@@ -87,11 +78,11 @@
 
       flake.flakeModules = {
         default = {};
-        inherit (flakeInputs.flake-modules) autoNixosModules;
-        inherit (flakeInputs.flake-modules) autoPkgs;
-        inherit (flakeInputs.flake-modules) homeConfigurations;
-        inherit (flakeInputs.flake-modules) nixosConfigurations;
-        inherit (flakeInputs.flake-modules) sopsSecrets;
+        autoNixosModules = ./flake-modules/autoNixosModules.nix;
+        autoPkgs = ./flake-modules/autoPkgs.nix;
+        homeConfigurations = ./flake-modules/homeConfigurations.nix;
+        nixosConfigurations = ./flake-modules/nixosConfigurations.nix;
+        sopsSecrets = ./flake-modules/sopsSecrets.nix;
       };
 
       perSystem = {
@@ -105,12 +96,7 @@
           pkgs = lib.nix.mkNixpkgs {
             inherit system;
             inherit (inputs) nixpkgs;
-            overlays = [
-              (final: _: {
-                devour-flake = final.callPackage inputs.devour-flake {};
-              })
-            ];
-          };
+                      };
         };
 
         # devshells
