@@ -81,7 +81,7 @@ in
     # Disable conflicting features
     withMfx = false; # Conflicts with libvpl
   }).overrideAttrs (old: {
-    pname = "erstaztv-ffmpeg";
+    pname = "ersatztv-ffmpeg";
 
     # Add additional Intel hardware acceleration drivers
     buildInputs =
