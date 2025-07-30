@@ -62,7 +62,7 @@
           flake-parts.flakeModules.flakeModules
           treefmt-nix.flakeModule
         ])
-        ++  [
+        ++ [
           ./pkgs
           ./flake-modules/autoNixosModules.nix
         ];
@@ -96,7 +96,7 @@
           pkgs = lib.nix.mkNixpkgs {
             inherit system;
             inherit (inputs) nixpkgs;
-                      };
+          };
         };
 
         # devshells
