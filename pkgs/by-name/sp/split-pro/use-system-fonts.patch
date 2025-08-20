@@ -1,0 +1,26 @@
+--- a/src/pages/_app.tsx
++++ b/src/pages/_app.tsx
+@@ -1,7 +1,6 @@
+ import { type Session } from 'next-auth';
+ import { SessionProvider, useSession } from 'next-auth/react';
+ import { type AppType } from 'next/app';
+-import { Poppins } from 'next/font/google';
+ import { ThemeProvider } from '~/components/theme-provider';
+ import { api } from '~/utils/api';
+ import clsx from 'clsx';
+@@ -15,7 +14,6 @@ import { useEffect, useState } from 'react';
+ import { useAddExpenseStore } from '~/store/addStore';
+ import { useAppStore } from '~/store/appStore';
+
+-const poppins = Poppins({ weight: ['200', '300', '400', '500', '600', '700'], subsets: ['latin'] });
+
+ const MyApp: AppType<{ session: Session | null }> = ({
+   Component,
+@@ -23,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
+ }) => {
+   return (
+-    <main className={clsx(poppins.className, 'h-full')}>
++    <main className={clsx('font-[Poppins]', 'h-full')}>
+       <Head>
+         <title>SplitPro: Split Expenses with your friends for free</title>
+         <link rel="icon" href="/favicon.ico" />
