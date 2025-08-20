@@ -10,16 +10,16 @@
 }:
 buildDotnetModule rec {
   pname = "ersatztv";
-  version = "25.3.1";
+  version = "25.4.0";
 
   src = fetchFromGitHub {
     owner = "ErsatzTV";
     repo = "ErsatzTV";
     rev = "v${version}";
-    sha256 = "sha256-HyRVDsmkJSLgn9wff0/GeFELqTNyDY1D5z+tJ5d6UPA=";
+    sha256 = "sha256-JIfZNp6TpSaC4eOr0a2MK3XXT6uM93eQgQv2x1gAwY0=";
   };
 
-  buildInputs = [ersatztv-ffmpeg];
+  buildInputs = [ ersatztv-ffmpeg ];
 
   projectFile = "ErsatzTV/ErsatzTV.csproj";
   executables = [
