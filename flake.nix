@@ -18,14 +18,10 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    # flake-parts
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
+    #blueprint
+    blueprint.url = "github:numtide/blueprint";
 
     # utilities
-    systems.url = "github:nix-systems/default";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,118 +30,11 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lib-extras = {
-      url = "github:aldoborrero/lib-extras/v1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    flake-compat.url = "github:nix-community/flake-compat";
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    nixpkgs,
-    systems,
-    ...
-  }: let
-    lib = nixpkgs.lib.extend (l: _: (inputs.lib-extras.lib l));
-  in
-    flake-parts.lib.mkFlake
-    {
+  outputs =
+    inputs:
+    inputs.blueprint {
       inherit inputs;
-      specialArgs = {inherit lib;};
-    }
-    {
-      imports =
-        (with inputs; [
-          devshell.flakeModule
-          flake-parts.flakeModules.easyOverlay
-          flake-parts.flakeModules.flakeModules
-          treefmt-nix.flakeModule
-        ])
-        ++ [
-          ./pkgs
-          ./flake-modules/autoNixosModules.nix
-        ];
-
-      debug = false;
-
-      systems = import systems;
-
-      auto.nixosModules = {
-        path = ./nixos-modules;
-        includeDefaults = true;
-      };
-
-      flake.flakeModules = {
-        default = {};
-        autoNixosModules = ./flake-modules/autoNixosModules.nix;
-        autoPkgs = ./flake-modules/autoPkgs.nix;
-        homeConfigurations = ./flake-modules/homeConfigurations.nix;
-        nixosConfigurations = ./flake-modules/nixosConfigurations.nix;
-        sopsSecrets = ./flake-modules/sopsSecrets.nix;
-      };
-
-      perSystem = {
-        pkgs,
-        lib,
-        system,
-        ...
-      }: {
-        # nixpkgs
-        _module.args = {
-          pkgs = lib.nix.mkNixpkgs {
-            inherit system;
-            inherit (inputs) nixpkgs;
-          };
-        };
-
-        # devshells
-        devshells.default = {
-          name = "mynixpkgs";
-          packages = [];
-          commands = [
-            {
-              name = "fmt";
-              category = "nix";
-              help = "format the source tree";
-              command = ''nix fmt'';
-            }
-            {
-              name = "check";
-              category = "nix";
-              help = "check the source tree";
-              command = ''nix flake check'';
-            }
-          ];
-        };
-
-        # treefmt
-        treefmt.config = {
-          projectRootFile = "flake.nix";
-          flakeFormatter = true;
-          flakeCheck = true;
-          programs = {
-            alejandra.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            mdformat.enable = true;
-            shfmt.enable = true;
-            terraform.enable = true;
-            yamlfmt.enable = true;
-          };
-          settings.formatter = {
-            deadnix.priority = 1;
-            statix.priority = 2;
-            alejandra.priority = 3;
-            mdformat.command = lib.mkForce (pkgs.mdformat.withPlugins (p: [
-              p.mdformat-footnote
-              p.mdformat-frontmatter
-              p.mdformat-gfm
-              p.mdformat-simple-breaks
-            ]));
-            yamlfmt.includes = [".yamlfmt"];
-          };
-        };
-      };
     };
 }
