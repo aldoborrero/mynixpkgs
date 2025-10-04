@@ -5,6 +5,7 @@
 perSystem.devshell.mkShell {
   packages = [
     perSystem.self.formatter
+    pkgs.nix-update
   ];
 
   env = [
