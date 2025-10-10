@@ -7,13 +7,13 @@
 with pkgs;
 buildDotnetModule rec {
   pname = "ersatztv";
-  version = "25.4.0";
+  version = "25.7.1";
 
   src = fetchFromGitHub {
     owner = "ErsatzTV";
     repo = "ErsatzTV";
     rev = "v${version}";
-    sha256 = "sha256-JIfZNp6TpSaC4eOr0a2MK3XXT6uM93eQgQv2x1gAwY0=";
+    sha256 = "sha256-tCMUjfdk1TEnRD5yjc3GDStoV6uCGhw6e30wNYS8F90=";
   };
 
   buildInputs = [ ersatztv-ffmpeg ];

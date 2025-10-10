@@ -94,5 +94,6 @@ in
       homepage = "https://github.com/ErsatzTV/ErsatzTV-ffmpeg";
       platforms = lib.platforms.linux;
       maintainers = with lib.maintainers; [ aldoborrero ];
+      license = [ ];
     };
   })
